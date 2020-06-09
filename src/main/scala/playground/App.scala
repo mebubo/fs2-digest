@@ -14,7 +14,6 @@ import Fold.compose
 
 object App {
 
-
   def app[F[_]: Sync: ContextShift](path: Path)(blocker: Blocker): F[ExitCode] = {
     val MyFolds = compose(compose(Hash.sha256, Hash.sha512), Length.length[Byte])
     for {
