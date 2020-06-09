@@ -14,12 +14,12 @@ import Fold.{composeChunkFolds => compose}
 
 object App {
 
-  val MyFolds = compose(compose(Hash.sha256, Hash.sha512), Length.length[Byte])
 
   def app[F[_]: Sync: ContextShift](path: Path)(blocker: Blocker): F[ExitCode] = {
+    val MyFolds = compose(compose(Hash.sha256, Hash.sha512), Length.length[Byte])
     for {
-      folds <- Fold.fold(MyFolds)(read(path, blocker))
-      val ((sha256, sha512), length) = folds
+      results <- Fold.fold(MyFolds)(read(path, blocker))
+      val ((sha256, sha512), length) = results
       _ <- print("sha256", Hash.hex(sha256))
       _ <- print("sha512", Hash.hex(sha512))
       _ <- print("length", length.toString)
