@@ -10,7 +10,7 @@ import java.nio.file.Path
 import cats.effect.Sync
 import cats.effect.ContextShift
 
-import Fold.{composeChunkFolds => compose}
+import Fold.compose
 
 object App {
 
@@ -31,6 +31,6 @@ object App {
   def print[F[_]: Sync](name: String, s: String): F[Unit] = print[F](s"${name}: ${s}")
 
   def read[F[_]: Sync: ContextShift](path: Path, blocker: Blocker): Stream[F, Byte] =
-    readAll[F](path, blocker, 512)
+    readAll[F](path, blocker, 8 * 1024 * 1024)
 
 }

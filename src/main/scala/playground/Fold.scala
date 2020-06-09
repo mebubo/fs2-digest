@@ -24,7 +24,7 @@ object Fold {
   def fold[F[_], G[_], A, B](cf: ChunkFold[A, B])(s: Stream[F, A])(implicit c: Stream.Compiler[F, G], f: Functor[G]): G[B] =
     s.compile.foldChunks(cf.init)((a, b) => cf.f(a, b)).map(cf.end)
 
-  def composeChunkFolds[A, B, C](f1: ChunkFold[A, B], f2: ChunkFold[A, C]): ChunkFold[A, (B, C)] =
+  def compose[A, B, C](f1: ChunkFold[A, B], f2: ChunkFold[A, C]): ChunkFold[A, (B, C)] =
     new ChunkFold[A, (B, C)] {
       type I = (f1.I, f2.I)
       def init: I = (f1.init, f2.init)
