@@ -21,10 +21,6 @@ object Fold {
     def end(i: I): B
   }
 
-  object ChunkFold {
-    type Aux[A, B, I0] = ChunkFold[A, B] { type I = I0 }
-  }
-
   def fold[F[_], G[_], A, B](cf: ChunkFold[A, B])(s: Stream[F, A])(implicit c: Stream.Compiler[F, G], f: Functor[G]): G[B] =
     s.compile.foldChunks(cf.init)((a, b) => cf.f(a, b)).map(cf.end)
 

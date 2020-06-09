@@ -1,7 +1,8 @@
 package playground
 
-import Fold.ChunkFold
 import fs2.Chunk
+
+import Fold.ChunkFold
 
 object Length {
 

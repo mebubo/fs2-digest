@@ -1,9 +1,10 @@
 package playground
 
 import fs2._
-import Fold.ChunkFold
 import java.security.MessageDigest
 import java.math.BigInteger
+
+import Fold.ChunkFold
 
 object Hash {
 
